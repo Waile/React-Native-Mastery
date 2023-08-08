@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
+  FlatList,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -11,7 +13,7 @@ import {
 } from 'react-native';
 
 //CONSTANTS
-import { currencyByRupee } from './constants';
+import {currencyByRupee} from './constants';
 //COMPONENTS
 import CurrencyButton from './components/CurrencyButton';
 
@@ -47,7 +49,7 @@ function CurrencyConverter(): JSX.Element {
   };
 
   return (
-    <SafeAreaView>
+    <>
       <StatusBar />
       <View style={styles.container}>
         <View style={styles.topContainer}>
@@ -58,15 +60,33 @@ function CurrencyConverter(): JSX.Element {
               value={inputValue}
               clearButtonMode="always"
               onChangeText={setInputValue}
-              keyboardType="number-pad" placeholder='Enter Amount in rupees'
+              keyboardType="number-pad"
+              placeholder="Enter Amount in rupees"
+              placeholderTextColor={'#000000'}
+              style={styles.inputAmountField}
             />
           </View>
-          {resultValue && (
-            <Text style={styles.resultTxt}>{resultValue}</Text>
-          )}
+          {resultValue && <Text style={styles.resultTxt}>{resultValue}</Text>}
+        </View>
+        <View style={styles.bottomContainer}>
+          <FlatList
+            numColumns={2}
+            data={currencyByRupee}
+            keyExtractor={item => item.name}
+            renderItem={({item}) => (
+              <Pressable
+                style={[
+                  styles.button,
+                  targetCurrency === item.name && styles.selected,
+                ]}
+                onPress={() => buttonPressed(item)}>
+                <CurrencyButton {...item} />
+              </Pressable>
+            )}
+          />
         </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 }
 
@@ -87,7 +107,6 @@ const styles = StyleSheet.create({
   },
   rupee: {
     marginRight: 8,
-
     fontSize: 22,
     color: '#000000',
     fontWeight: '800',
@@ -109,20 +128,18 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-
     margin: 12,
     height: 60,
-
     borderRadius: 12,
     backgroundColor: '#fff',
-    elevation: 2,
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    shadowColor: '#333',
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
+    // elevation: 2,
+    // shadowOffset: {
+    //   width: 1,
+    //   height: 1,
+    // },
+    // shadowColor: '#333',
+    // shadowOpacity: 0.1,
+    // shadowRadius: 1,
   },
   selected: {
     backgroundColor: '#ffeaa7',
