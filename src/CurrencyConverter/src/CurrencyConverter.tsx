@@ -2,13 +2,10 @@ import React, {useState} from 'react';
 import {
   FlatList,
   Pressable,
-  SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TextInput,
-  useColorScheme,
   View,
 } from 'react-native';
 
