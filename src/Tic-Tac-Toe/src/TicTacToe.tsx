@@ -1,7 +1,16 @@
-import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 
 import Snackbar from 'react-native-snackbar';
+import Icons from './components/Icons';
 
 const TicTacToe = (): JSX.Element => {
   const [isCross, setIsCross] = useState<boolean>(false);
@@ -78,7 +87,7 @@ const TicTacToe = (): JSX.Element => {
       });
     }
 
-    if (gameState[itemNumber] !== 'empty') {
+    if (gameState[itemNumber] === 'empty') {
       gameState[itemNumber] = isCross ? 'cross' : 'circle';
       setIsCross(!isCross);
     } else {
@@ -95,9 +104,41 @@ const TicTacToe = (): JSX.Element => {
   return (
     <SafeAreaView>
       <StatusBar />
-      <View>
-        <Text>Tic Tac Toe</Text>
-      </View>
+      {gameWinner ? (
+        <View style={[styles.playerInfo, styles.winnerInfo]}>
+          <Text style={styles.winnerTxt}>{gameWinner}</Text>
+        </View>
+      ) : (
+        <View
+          style={[
+            styles.playerInfo,
+            isCross ? styles.playerX : styles.playerO,
+          ]}>
+          <Text style={styles.gameTurnTxt}>
+            Player {isCross ? 'X' : 'O'} 's turn
+          </Text>
+        </View>
+      )}
+      {/* Game Grid  */}
+      <FlatList
+        numColumns={3}
+        data={gameState}
+        style={styles.grid}
+        renderItem={({item, index}) => (
+          <Pressable
+            key={index}
+            style={styles.card}
+            onPress={() => onChangeItem(index)}>
+            <Icons name={item} />
+          </Pressable>
+        )}
+      />
+      {/* Game Action  */}
+      <Pressable style={styles.gameBtn} onPress={reloadGame}>
+        <Text style={styles.gameBtnText}>
+          {gameWinner ? 'Start new game' : 'Reload the game'}
+        </Text>
+      </Pressable>
     </SafeAreaView>
   );
 };
