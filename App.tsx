@@ -1,11 +1,10 @@
 import React from 'react';
 
-import CurrencyConverter from './src/CurrencyConverter/src/CurrencyConverter';
-import TicTacToe from './src/Tic-Tac-Toe/src/TicTacToe';
-import MusicPlayer from './src/MusicPlayer/src/MusicPlayer';
+import ReactNativeAuthentication from './src/ReactNativeAuthentication/ReactNativeAuthentication';
+import DoubleRangeSlider from './src/DoubleRangeSlider/DoubleRangeSlider';
 
 function App(): JSX.Element {
-  return <MusicPlayer />;
+  return <DoubleRangeSlider />;
 }
 
 export default App;
